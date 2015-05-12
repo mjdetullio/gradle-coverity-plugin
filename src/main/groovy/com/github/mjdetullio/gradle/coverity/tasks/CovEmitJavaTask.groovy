@@ -61,8 +61,8 @@ class CovEmitJavaTask extends DefaultTask {
              */
 
             project.exec {
-                executable Utils.getExePath(project.coverity.coverityHome.toString(), 'cov-emit-java')
-                args '--dir', project.file(project.coverity.intermediateDir.toString()).absolutePath
+                executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-emit-java')
+                args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
                 args '--findsource', emitConfig.sourceDirs.join(File.pathSeparator)
                 args '--compiler-outputs', emitConfig.compilerOutputDirs.join(File.pathSeparator)
                 args '--classpath', emitConfig.classpath.asPath

@@ -39,8 +39,8 @@ class CovCommitDefectsTask extends DefaultTask {
     @TaskAction
     void commit() {
         project.exec {
-            executable Utils.getExePath(project.coverity.coverityHome.toString(), 'cov-commit-defects')
-            args '--dir', project.file(project.coverity.intermediateDir.toString()).absolutePath
+            executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-commit-defects')
+            args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
             args '--stream', project.coverity.stream
             args '--host', project.coverity.host
             args '--port', project.coverity.port
