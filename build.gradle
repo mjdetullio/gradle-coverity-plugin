@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath 'com.gradle.publish:plugin-publish-plugin:0.9.0'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'com.gradle.plugin-publish'
+
+group = 'com.github.mjdetullio.gradle'
+version = '1.0.0'
+
+description = 'A plugin for integrating with Coverity, a static analysis ' +
+        'platform.  Adds tasks to the project that will emit, analyze, and ' +
+        'commit data using Coverity Analysis Tools that are installed on the ' +
+        'user\'s machine.  Supports analysis of Java code for Java and/or ' +
+        'Android projects.'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:1.0.0'
+}
+
+pluginBundle {
+    website = 'https://github.com/mjdetullio/gradle-coverity-plugin'
+    vcsUrl = 'https://github.com/mjdetullio/gradle-coverity-plugin'
+    description = project.description
+    tags = ['coverity', 'java', 'android']
+
+    plugins {
+        coverityPlugin {
+            id = 'com.github.mjdetullio.gradle.coverity'
+            displayName = 'Gradle Coverity Plugin'
+        }
+    }
+}
+
+task checkJavaVersion << {
+    if (!JavaVersion.current().isJava6()) {
+        throw new GradleException(
+                "JDK 1.6 is required (found ${JavaVersion.current()}).")
+    }
+}
+
+compileJava.dependsOn checkJavaVersion
+
+compileGroovy {
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
+    options.encoding = 'UTF-8'
+    options.compilerArgs = ['-Xlint:all']
+    options.deprecation = true
+    options.warnings = true
+}

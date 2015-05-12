@@ -1,0 +1,45 @@
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Derby
+derby.log
+
+# CodePro
+.codepro
+
+# ---- Mac OS X
+.DS_Store
+.DS_Store?
+Icon?
+# Thumbnails
+._*
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# ---- Windows
+# Windows image file caches
+Thumbs.db
+# Folder config file
+Desktop.ini
+
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Eclipse
+.apt_generated/
+.settings/
+.project
+.classpath
+
+# JRebel
+rebel.xml
+
