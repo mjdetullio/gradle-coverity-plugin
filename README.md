@@ -85,7 +85,9 @@ coverity {
     // Coverity Connect settings used during the commit phase
     stream = System.getenv('COVERITY_STREAM')
     host = System.getenv('COVERITY_HOST')
+    // Port or dataport is supported -- dataport is favored (port is used if dataport is unspecified)
     port = System.getenv('COVERITY_PORT')
+    dataport = System.getenv('COVERITY_DATAPORT')
     user = System.getenv('COVERITY_USER')
     pass = System.getenv('COVERITY_PASS')
 

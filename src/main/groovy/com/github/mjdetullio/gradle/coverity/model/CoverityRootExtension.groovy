@@ -54,6 +54,14 @@ class CoverityRootExtension extends CoverityExtension {
     String port
 
     /**
+     * Specifies the Coverity Connect commit dataport number.
+     * <p/>
+     * Default value is the <code>COVERITY_DATAPORT</code> environment variable
+     * (or null if the environment variable is unset).
+     */
+    String dataport
+
+    /**
      * Specifies the Coverity Connect commit username.
      * <p/>
      * Default value is the <code>COVERITY_USER</code> environment variable
@@ -81,6 +89,7 @@ class CoverityRootExtension extends CoverityExtension {
         stream = System.getenv('COVERITY_STREAM')
         host = System.getenv('COVERITY_HOST')
         port = System.getenv('COVERITY_PORT')
+        dataport = System.getenv('COVERITY_DATAPORT')
         user = System.getenv('COVERITY_USER')
         pass = System.getenv('COVERITY_PASS')
     }
