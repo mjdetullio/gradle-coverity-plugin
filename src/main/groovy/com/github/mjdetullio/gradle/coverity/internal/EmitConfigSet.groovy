@@ -136,7 +136,7 @@ class EmitConfigSet {
 
         // Variant = Product Flavor + Build Type
         // This loop should hit all possible versions of the app
-        for (BaseVariantData variantData : plugin.variantDataList) {
+        for (BaseVariantData variantData : plugin.variantManager.variantDataList) {
             // Only use the debug build type (Coverity requires debug build)
             // Exclude test variants
             if (!variantData.variantConfiguration.buildType.name.equals(
@@ -169,7 +169,7 @@ class EmitConfigSet {
             emitConfig.classpath +=
                     variantData.javaCompileTask.classpath
             emitConfig.classpath +=
-                    project.files(plugin.bootClasspath)
+                    project.files(plugin.androidBuilder.bootClasspath)
 
             emitConfigs += emitConfig
         }
