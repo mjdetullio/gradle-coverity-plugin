@@ -62,7 +62,7 @@ buildscript {
 apply plugin: 'com.github.mjdetullio.gradle.coverity'
 ```
 
-Now you're ready to configure.  Emit and analyze and pretty much plug-n-play
+Now you're ready to configure.  Emit and analyze are pretty much plug-n-play
 once you set your ```COVERITY_HOME``` environment variable.  Commit can be
 configured with environment variables.  Reference the below defaults for those
 variables, or set them in your Gradle file.
