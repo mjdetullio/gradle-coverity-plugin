@@ -163,11 +163,29 @@ class EmitConfigSet {
                         variantData.renderscriptCompileTask.sourceOutputDir
             }
 
-            emitConfig.compilerOutputDirs +=
-                    variantData.javaCompileTask.outputs.files.files
+            if (variantData.hasProperty('javaCompileTask')) {
+                // Android plugin before 1.3.x
+                emitConfig.compilerOutputDirs +=
+                        variantData.javaCompileTask.outputs.files.files
 
-            emitConfig.classpath +=
-                    variantData.javaCompileTask.classpath
+                emitConfig.classpath +=
+                        variantData.javaCompileTask.classpath
+            } else if (variantData.hasProperty('javacTask')) {
+                // Android plugin 1.3.x
+                emitConfig.compilerOutputDirs +=
+                        variantData.javacTask.outputs.files.files
+
+                emitConfig.classpath +=
+                        variantData.javacTask.classpath
+            } else {
+                // Also in 1.3.x, added in case javacTask is removed in a newer version
+                emitConfig.compilerOutputDirs +=
+                        variantData.javaCompilerTask.outputs.files.files
+
+                emitConfig.classpath +=
+                        variantData.javaCompilerTask.classpath
+            }
+
             emitConfig.classpath +=
                     project.files(plugin.androidBuilder.bootClasspath)
 
