@@ -41,7 +41,7 @@ class CovAnalyzeJavaTask extends DefaultTask {
         project.exec {
             executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-analyze-java')
             args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
-            args '--strip-path', project.projectDir.absolutePath
+            args '--strip-path', project.file((String) project.coverity.stripPath).absolutePath
             args '--jobs', 'auto'
             args '--all'
             if (additionalArgs) {

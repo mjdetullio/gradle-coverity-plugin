@@ -78,6 +78,9 @@ coverity {
     // Directory Coverity uses during emit/analyze/commit
     intermediateDir = "${project.buildDir}/coverity/intermediate"
 
+    // Path to strip from the beginning of each file's absolute path during analyze
+    stripPath = project.projectDir
+
     // Path to your Coverity Analysis Tools root directory (leave "bin" off the end)
     // If env var is not set and you don't set this, it assumes "${COVERITY_HOME}/bin" is on your PATH
     coverityHome = System.getenv('COVERITY_HOME')

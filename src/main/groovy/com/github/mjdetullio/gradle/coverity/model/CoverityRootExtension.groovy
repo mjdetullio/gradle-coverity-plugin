@@ -18,6 +18,14 @@ class CoverityRootExtension extends CoverityExtension {
     String intermediateDir
 
     /**
+     * Specifies the path to strip from the beginning of each file's absolute
+     * path during analyze.
+     * <p/>
+     * Default value is <code>project.projectDir</code>.
+     */
+    String stripPath
+
+    /**
      * Specifies the path to your Coverity Analysis Tools root directory (leave
      * "bin" off the end).
      * <p/>
@@ -81,10 +89,12 @@ class CoverityRootExtension extends CoverityExtension {
      * Instantiates a new instance of this extension.
      *
      * @param project project this extension is applied to, which is used to
-     *                default the {@link #intermediateDir}.
+     *                default the {@link #intermediateDir} and
+     *                {@link #stripPath}.
      */
     CoverityRootExtension(Project project) {
         intermediateDir = "${project.buildDir}/coverity/intermediate"
+        stripPath = project.projectDir
         coverityHome = System.getenv('COVERITY_HOME')
         stream = System.getenv('COVERITY_STREAM')
         host = System.getenv('COVERITY_HOST')
