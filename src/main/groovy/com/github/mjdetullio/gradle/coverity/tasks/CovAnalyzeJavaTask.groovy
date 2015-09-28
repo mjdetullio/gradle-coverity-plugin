@@ -5,17 +5,18 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 /**
- * Runs the <code>cov-analyze-java</code> command, which analyzes code that was
- * previously parsed and emitted into an intermediate directory. It stores
- * analysis information in the intermediate directory and is later pushed by to
- * the Coverity Connect database by <code>cov-commit-defects</code>.
+ * Runs the <code>cov-analyze</code> command with the <code>--java</code>
+ * argument, which analyzes code that was previously parsed and emitted into an
+ * intermediate directory. It stores analysis information in the intermediate
+ * directory and is later pushed by to the Coverity Connect database by
+ * <code>cov-commit-defects</code>.
  *
  * @author Matthew DeTullio
  */
 class CovAnalyzeJavaTask extends DefaultTask {
     /**
      * Specifies any additonal arguments to be passed to the external
-     * <code>cov-analyze-java</code> execution.
+     * <code>cov-analyze</code> execution.
      */
     List<String> additionalArgs
 
@@ -25,21 +26,23 @@ class CovAnalyzeJavaTask extends DefaultTask {
      */
     CovAnalyzeJavaTask() {
         group = 'Coverity'
-        description = 'Runs the cov-analyze-java command, which analyzes ' +
-                'code that was previously parsed and emitted into an ' +
-                'intermediate directory. It stores analysis information in ' +
-                'the intermediate directory and is later pushed by to the ' +
-                'Coverity Connect database by cov-commit-defects.'
+        description = 'Runs the cov-analyze command with the --java ' +
+                'argument, which analyzes code that was previously parsed ' +
+                'and emitted into an intermediate directory. It stores ' +
+                'analysis information in the intermediate directory and ' +
+                'is later pushed by to the Coverity Connect database by ' +
+                'cov-commit-defects.'
     }
 
     /**
-     * Task action that executes <code>cov-analyze-java</code>.
+     * Task action that executes <code>cov-analyze</code>.
      */
     @SuppressWarnings('GroovyUnusedDeclaration')
     @TaskAction
     void analyze() {
         project.exec {
-            executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-analyze-java')
+            executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-analyze')
+            args '--java'
             args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
             args '--strip-path', project.file((String) project.coverity.stripPath).absolutePath
             args '--jobs', 'auto'

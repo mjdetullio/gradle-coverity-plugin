@@ -28,10 +28,11 @@ much.
   * Note: bumps Gradle requirement to 2.2.1+
 * Can analyze projects with child projects
   * Root and child projects can be mixed Java and Android
-* Tested with Coverity Analysis Tools 7.0.3 and Coverity Connect 7.0.3
-  * Other versions might work
+* Tested with the following versions of Coverity Analysis Tools and Coverity Connect:
+  * 7.0.3
+  * 7.7.0
+  * Anything in between probably works
   * No planned support for other versions
-  * I can add versions to a list here if you report they work
 
 ## Instructions
 
