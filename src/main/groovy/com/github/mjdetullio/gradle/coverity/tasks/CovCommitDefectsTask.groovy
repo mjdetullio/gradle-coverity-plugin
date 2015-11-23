@@ -42,14 +42,27 @@ class CovCommitDefectsTask extends DefaultTask {
             executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-commit-defects')
             args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
             args '--stream', project.coverity.stream
-            args '--host', project.coverity.host
+
+            if (project.coverity.host) {
+                args '--host', project.coverity.host
+            }
+
             if (project.coverity.dataport) {
                 args '--dataport', project.coverity.dataport
-            } else {
+            } else if (project.coverity.port) {
                 args '--port', project.coverity.port
+            } else if (project.coverity.httpsport) {
+                args '--https-port', project.coverity.port
             }
-            args '--user', project.coverity.user
-            args '--password', project.coverity.pass
+
+            if (project.coverity.user) {
+                args '--user', project.coverity.user
+            }
+
+            if (project.coverity.pass) {
+                args '--password', project.coverity.pass
+            }
+            
             if (additionalArgs) {
                 args additionalArgs
             }

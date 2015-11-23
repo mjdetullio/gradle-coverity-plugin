@@ -87,11 +87,13 @@ coverity {
     coverityHome = System.getenv('COVERITY_HOME')
 
     // Coverity Connect settings used during the commit phase
+    // Settings can also be picked from ${COVERITY_HOME}/config/coverity_config.xml if unspecified
     stream = System.getenv('COVERITY_STREAM')
     host = System.getenv('COVERITY_HOST')
-    // Port or dataport is supported -- dataport is favored (port is used if dataport is unspecified)
+    // Dataport, port, and HTTPS port is supported -- dataport is favored, followed by port, then httpsport
     port = System.getenv('COVERITY_PORT')
     dataport = System.getenv('COVERITY_DATAPORT')
+    httpsport = System.getenv('COVERITY_HTTPSPORT')
     user = System.getenv('COVERITY_USER')
     pass = System.getenv('COVERITY_PASS')
 
