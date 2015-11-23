@@ -52,7 +52,7 @@ class CovCommitDefectsTask extends DefaultTask {
             } else if (project.coverity.port) {
                 args '--port', project.coverity.port
             } else if (project.coverity.httpsport) {
-                args '--https-port', project.coverity.port
+                args '--https-port', project.coverity.httpsport
             }
 
             if (project.coverity.user) {
@@ -62,7 +62,7 @@ class CovCommitDefectsTask extends DefaultTask {
             if (project.coverity.pass) {
                 args '--password', project.coverity.pass
             }
-            
+
             if (additionalArgs) {
                 args additionalArgs
             }
