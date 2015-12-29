@@ -35,7 +35,7 @@ pluginBundle {
     website = 'https://github.com/mjdetullio/gradle-coverity-plugin'
     vcsUrl = 'https://github.com/mjdetullio/gradle-coverity-plugin'
     description = project.description
-    tags = ['coverity', 'java', 'android']
+    tags = ['coverity', 'java', 'android', 'sca', 'static code analysis', 'static analysis', 'code quality']
 
     plugins {
         coverityPlugin {
