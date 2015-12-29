@@ -58,7 +58,7 @@ class CoverityPlugin implements Plugin<Project> {
     void configureChildProjects(Project project) {
         for (Project childProject : project.childProjects.values()) {
             childProject.extensions.create(CoverityExtension.EXTENSION_NAME,
-                    CoverityExtension)
+                    CoverityExtension, childProject)
 
             configureChildProjects(childProject)
         }

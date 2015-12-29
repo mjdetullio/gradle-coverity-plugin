@@ -100,6 +100,12 @@ coverity {
     user = System.getenv('COVERITY_USER')
     pass = System.getenv('COVERITY_PASS')
 
+    // Specifies files that should be excluded from analysis by deleting them from the emit DB using cov-manage-emit
+    // Default:
+    excludes = [project.buildDir]
+    // Add more, in addition to the default "buildDir":
+    excludes += file('path/to/file')
+
     // Whether child projects (recursive) should be part of the analysis
     includeChildProjects = true
 
@@ -134,6 +140,12 @@ Optional settings for child projects:
 coverity {
     // Default values shown here
     // You only have to add them if you wish to override
+
+    // Specifies files that should be excluded from analysis by deleting them from the emit DB using cov-manage-emit
+    // Default:
+    excludes = [project.buildDir]
+    // Add more, in addition to the default "buildDir":
+    excludes += file('path/to/file')
 
     // Whether child projects (recursive) should be part of the analysis
     includeChildProjects = true

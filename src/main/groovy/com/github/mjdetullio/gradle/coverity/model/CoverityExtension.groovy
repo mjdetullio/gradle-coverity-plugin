@@ -1,5 +1,7 @@
 package com.github.mjdetullio.gradle.coverity.model
 
+import org.gradle.api.Project
+
 /**
  * The base extension that contains settings to be applied to all child projects
  * and will be inherited by {@link CoverityRootExtension}.
@@ -28,4 +30,22 @@ class CoverityExtension {
      * Default value is false.
      */
     boolean skip = false
+
+    /**
+     * Specifies files that should be excluded from analysis by deleting them
+     * from the emit DB using <code>cov-manage-emit</code>.
+     * <p/>
+     * Default value is <code>[project.buildDir]</code>.
+     */
+    Set<File> excludes
+
+    /**
+     * Instantiates a new instance of this extension.
+     *
+     * @param project project this extension is applied to, which is used to
+     *                default the fields.
+     */
+    CoverityExtension(Project project) {
+        excludes = [project.buildDir]
+    }
 }

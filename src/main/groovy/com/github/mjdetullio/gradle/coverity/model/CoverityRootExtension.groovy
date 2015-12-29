@@ -107,10 +107,10 @@ class CoverityRootExtension extends CoverityExtension {
      * Instantiates a new instance of this extension.
      *
      * @param project project this extension is applied to, which is used to
-     *                default the {@link #intermediateDir} and
-     *                {@link #stripPath}.
+     *                default the fields.
      */
     CoverityRootExtension(Project project) {
+        super(project)
         intermediateDir = "${project.buildDir}/coverity/intermediate"
         stripPath = project.projectDir
         scm = System.getenv('COVERITY_SCM')
