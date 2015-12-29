@@ -25,6 +25,7 @@ package com.github.mjdetullio.gradle.coverity.tasks
 
 import com.github.mjdetullio.gradle.coverity.internal.EmitConfig
 import com.github.mjdetullio.gradle.coverity.internal.EmitConfigSet
+import com.github.mjdetullio.gradle.coverity.model.CoverityExtension
 import com.github.mjdetullio.gradle.coverity.model.CoverityRootExtension
 import com.github.mjdetullio.gradle.coverity.util.Utils
 import org.gradle.api.DefaultTask
@@ -125,17 +126,15 @@ class CovEmitJavaTask extends DefaultTask {
 
     /**
      * Recursively gathers the excludes for a project and its children,
-     * respecting the
-     * {@link com.github.mjdetullio.gradle.coverity.model.CoverityExtension#skip}
-     * and
-     * {@link com.github.mjdetullio.gradle.coverity.model.CoverityExtension#includeChildProjects}
-     * settings for the projects.
+     * respecting the {@link CoverityExtension#skip} and
+     * {@link CoverityExtension#includeChildProjects} settings for the
+     * projects.
      *
      * @param project the project
      * @return excludes for project and its children
      */
     static Set<File> gatherExcludes(Project project) {
-        def ext = project.extensions.getByType(CoverityRootExtension)
+        def ext = project.extensions.getByType(CoverityExtension)
 
         Set<File> excludes = []
 

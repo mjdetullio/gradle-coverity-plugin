@@ -104,7 +104,7 @@ coverity {
     // Default:
     excludes = [project.buildDir]
     // Add more, in addition to the default "buildDir":
-    excludes += file('path/to/file')
+    excludes += [file('path/to/file')]
 
     // Whether child projects (recursive) should be part of the analysis
     includeChildProjects = true
@@ -145,7 +145,7 @@ coverity {
     // Default:
     excludes = [project.buildDir]
     // Add more, in addition to the default "buildDir":
-    excludes += file('path/to/file')
+    excludes += [file('path/to/file')]
 
     // Whether child projects (recursive) should be part of the analysis
     includeChildProjects = true
