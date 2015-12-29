@@ -1,5 +1,6 @@
 package com.github.mjdetullio.gradle.coverity.tasks
 
+import com.github.mjdetullio.gradle.coverity.model.CoverityRootExtension
 import com.github.mjdetullio.gradle.coverity.util.Utils
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -36,13 +37,15 @@ class CovImportScmTask extends DefaultTask {
     @SuppressWarnings('GroovyUnusedDeclaration')
     @TaskAction
     void analyze() {
-        def intermediateDirAbsPath = project.file((String) project.coverity.intermediateDir).absolutePath
+        def ext = project.extensions.getByType(CoverityRootExtension)
+
+        def intermediateDirAbsPath = project.file(ext.intermediateDir).absolutePath
 
         project.exec {
-            executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-import-scm')
+            executable Utils.getExePath(ext.coverityHome, 'cov-import-scm')
             args '--dir', intermediateDirAbsPath
             args '--log', "${intermediateDirAbsPath}/cov-import-scm.log"
-            args '--scm', (String) project.coverity.scm
+            args '--scm', ext.scm
             if (additionalArgs) {
                 args additionalArgs
             }

@@ -1,5 +1,6 @@
 package com.github.mjdetullio.gradle.coverity.tasks
 
+import com.github.mjdetullio.gradle.coverity.model.CoverityRootExtension
 import com.github.mjdetullio.gradle.coverity.util.Utils
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -40,11 +41,13 @@ class CovAnalyzeJavaTask extends DefaultTask {
     @SuppressWarnings('GroovyUnusedDeclaration')
     @TaskAction
     void analyze() {
+        def ext = project.extensions.getByType(CoverityRootExtension)
+
         project.exec {
-            executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-analyze')
+            executable Utils.getExePath(ext.coverityHome, 'cov-analyze')
             args '--java'
-            args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
-            args '--strip-path', project.file((String) project.coverity.stripPath).absolutePath
+            args '--dir', project.file(ext.intermediateDir).absolutePath
+            args '--strip-path', project.file(ext.stripPath).absolutePath
             args '--jobs', 'auto'
             args '--all'
             if (additionalArgs) {

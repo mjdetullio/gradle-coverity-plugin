@@ -1,5 +1,6 @@
 package com.github.mjdetullio.gradle.coverity.tasks
 
+import com.github.mjdetullio.gradle.coverity.model.CoverityRootExtension
 import com.github.mjdetullio.gradle.coverity.util.Utils
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -14,7 +15,7 @@ import org.gradle.api.tasks.TaskAction
  */
 class CovCommitDefectsTask extends DefaultTask {
     /**
-     * Specifies any additional arguments to be passed to the external
+     * Specifies any additonal arguments to be passed to the external
      * <code>cov-commit-defects</code> execution.
      */
     List<String> additionalArgs
@@ -38,33 +39,35 @@ class CovCommitDefectsTask extends DefaultTask {
     @SuppressWarnings('GroovyUnusedDeclaration')
     @TaskAction
     void commit() {
+        def ext = project.extensions.getByType(CoverityRootExtension)
+
         project.exec {
-            executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-commit-defects')
-            args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
-            args '--stream', project.coverity.stream
+            executable Utils.getExePath(ext.coverityHome, 'cov-commit-defects')
+            args '--dir', project.file(ext.intermediateDir).absolutePath
+            args '--stream', ext.stream
 
-            if (project.coverity.scm) {
-                args '--scm', project.coverity.scm
+            if (ext.scm) {
+                args '--scm', ext.scm
             }
 
-            if (project.coverity.host) {
-                args '--host', project.coverity.host
+            if (ext.host) {
+                args '--host', ext.host
             }
 
-            if (project.coverity.dataport) {
-                args '--dataport', project.coverity.dataport
-            } else if (project.coverity.port) {
-                args '--port', project.coverity.port
-            } else if (project.coverity.httpsport) {
-                args '--https-port', project.coverity.httpsport
+            if (ext.dataport) {
+                args '--dataport', ext.dataport
+            } else if (ext.port) {
+                args '--port', ext.port
+            } else if (ext.httpsport) {
+                args '--https-port', ext.httpsport
             }
 
-            if (project.coverity.user) {
-                args '--user', project.coverity.user
+            if (ext.user) {
+                args '--user', ext.user
             }
 
-            if (project.coverity.pass) {
-                args '--password', project.coverity.pass
+            if (ext.pass) {
+                args '--password', ext.pass
             }
 
             if (additionalArgs) {

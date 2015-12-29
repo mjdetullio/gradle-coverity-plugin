@@ -6,6 +6,7 @@ import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.internal.variant.BaseVariantData
 import com.android.build.gradle.internal.variant.TestVariantData
 import com.android.builder.core.BuilderConstants
+import com.github.mjdetullio.gradle.coverity.model.CoverityExtension
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -62,7 +63,7 @@ class EmitConfigSet {
             return
         }
 
-        if (!project.coverity.skip) {
+        if (!project.extensions.getByType(CoverityExtension).skip) {
             if (checkIsJavaProject(project)) {
                 populateForJava(project)
             } else if (checkIsAndroidProject(project)) {
@@ -78,7 +79,7 @@ class EmitConfigSet {
         populatedProjects += project
 
         // Iterate child projects even if skipped
-        if (baseProject.coverity.includeChildProjects) {
+        if (baseProject.extensions.getByType(CoverityExtension).includeChildProjects) {
             for (Project childProject : project.childProjects.values()) {
                 populate(childProject)
             }

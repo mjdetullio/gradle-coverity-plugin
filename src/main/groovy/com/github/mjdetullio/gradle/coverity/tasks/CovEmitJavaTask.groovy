@@ -2,6 +2,7 @@ package com.github.mjdetullio.gradle.coverity.tasks
 
 import com.github.mjdetullio.gradle.coverity.internal.EmitConfig
 import com.github.mjdetullio.gradle.coverity.internal.EmitConfigSet
+import com.github.mjdetullio.gradle.coverity.model.CoverityRootExtension
 import com.github.mjdetullio.gradle.coverity.util.Utils
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -48,6 +49,8 @@ class CovEmitJavaTask extends DefaultTask {
     @SuppressWarnings('GroovyUnusedDeclaration')
     @TaskAction
     void emit() {
+        def ext = project.extensions.getByType(CoverityRootExtension)
+
         for (EmitConfig emitConfig : new EmitConfigSet(project).emitConfigs) {
             // Remove source dirs that do not exist, otherwise cov-emit-java will throw an error
             for (Iterator<File> i = emitConfig.sourceDirs.iterator(); i.hasNext();) {
@@ -65,8 +68,8 @@ class CovEmitJavaTask extends DefaultTask {
              */
 
             project.exec {
-                executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-emit-java')
-                args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
+                executable Utils.getExePath(ext.coverityHome, 'cov-emit-java')
+                args '--dir', project.file(ext.intermediateDir).absolutePath
                 args '--findsource', emitConfig.sourceDirs.join(File.pathSeparator)
                 args '--compiler-outputs', emitConfig.compilerOutputDirs.join(File.pathSeparator)
                 args '--classpath', emitConfig.classpath.asPath
@@ -78,9 +81,9 @@ class CovEmitJavaTask extends DefaultTask {
 
         for (File exclude : gatherExcludes(project)) {
             project.exec {
-                executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-manage-emit')
+                executable Utils.getExePath(ext.coverityHome, 'cov-manage-emit')
                 args '--java'
-                args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
+                args '--dir', project.file(ext.intermediateDir).absolutePath
                 args '--tu-pattern', "file('${exclude.absolutePath}')"
                 args 'delete'
 
@@ -109,13 +112,15 @@ class CovEmitJavaTask extends DefaultTask {
      * @return excludes for project and its children
      */
     static Set<File> gatherExcludes(Project project) {
+        def ext = project.extensions.getByType(CoverityRootExtension)
+
         Set<File> excludes = []
 
-        if (!project.coverity.skip && project.coverity.excludes) {
-            excludes += ((Set<File>) project.coverity.excludes).findAll { it.exists() }
+        if (!ext.skip && ext.excludes) {
+            excludes += ext.excludes.findAll { it.exists() }
         }
 
-        if (project.coverity.includeChildProjects) {
+        if (ext.includeChildProjects) {
             for (Project childProject : project.childProjects.values()) {
                 excludes += gatherExcludes(childProject)
             }
