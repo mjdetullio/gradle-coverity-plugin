@@ -17,7 +17,7 @@ import org.gradle.api.tasks.TaskAction
  */
 class CovEmitJavaTask extends DefaultTask {
     /**
-     * Specifies any additonal arguments to be passed to <i>each</i> external
+     * Specifies any additional arguments to be passed to <i>each</i> external
      * <code>cov-emit-java</code> execution.
      */
     List<String> additionalArgs

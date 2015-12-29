@@ -15,7 +15,7 @@ import org.gradle.api.tasks.TaskAction
  */
 class CovAnalyzeJavaTask extends DefaultTask {
     /**
-     * Specifies any additonal arguments to be passed to the external
+     * Specifies any additional arguments to be passed to the external
      * <code>cov-analyze</code> execution.
      */
     List<String> additionalArgs

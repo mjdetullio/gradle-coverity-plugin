@@ -14,7 +14,7 @@ import org.gradle.api.tasks.TaskAction
  */
 class CovCommitDefectsTask extends DefaultTask {
     /**
-     * Specifies any additonal arguments to be passed to the external
+     * Specifies any additional arguments to be passed to the external
      * <code>cov-commit-defects</code> execution.
      */
     List<String> additionalArgs
@@ -42,6 +42,10 @@ class CovCommitDefectsTask extends DefaultTask {
             executable Utils.getExePath((String) project.coverity.coverityHome, 'cov-commit-defects')
             args '--dir', project.file((String) project.coverity.intermediateDir).absolutePath
             args '--stream', project.coverity.stream
+
+            if (project.coverity.scm) {
+                args '--scm', project.coverity.scm
+            }
 
             if (project.coverity.host) {
                 args '--host', project.coverity.host

@@ -10,7 +10,7 @@ import org.gradle.api.Project
  */
 class CoverityRootExtension extends CoverityExtension {
     /**
-     * Specifies the directory Coverity uses during emit/analyze/commit.
+     * Specifies the directory Coverity uses during emit/scm/analyze/commit.
      * <p/>
      * Default value is
      * <code>"${project.buildDir}/coverity/intermediate"</code>.
@@ -24,6 +24,16 @@ class CoverityRootExtension extends CoverityExtension {
      * Default value is <code>project.projectDir</code>.
      */
     String stripPath
+
+    /**
+     * Specifies the SCM type to use during SCM import (this is the value for
+     * the <code>--scm</code> argument of <code>cov-import-scm</code> and
+     * <code>cov-commit-defects</code>).
+     * <p/>
+     * Default value is the <code>COVERITY_SCM</code> environment variable
+     * (or null if the environment variable is unset).
+     */
+    String scm
 
     /**
      * Specifies the path to your Coverity Analysis Tools root directory (leave
@@ -103,6 +113,7 @@ class CoverityRootExtension extends CoverityExtension {
     CoverityRootExtension(Project project) {
         intermediateDir = "${project.buildDir}/coverity/intermediate"
         stripPath = project.projectDir
+        scm = System.getenv('COVERITY_SCM')
         coverityHome = System.getenv('COVERITY_HOME')
         stream = System.getenv('COVERITY_STREAM')
         host = System.getenv('COVERITY_HOST')

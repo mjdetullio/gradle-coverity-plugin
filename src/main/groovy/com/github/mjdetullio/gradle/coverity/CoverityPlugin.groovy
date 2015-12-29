@@ -5,6 +5,7 @@ import com.github.mjdetullio.gradle.coverity.model.CoverityRootExtension
 import com.github.mjdetullio.gradle.coverity.tasks.CovAnalyzeJavaTask
 import com.github.mjdetullio.gradle.coverity.tasks.CovCommitDefectsTask
 import com.github.mjdetullio.gradle.coverity.tasks.CovEmitJavaTask
+import com.github.mjdetullio.gradle.coverity.tasks.CovImportScmTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -31,16 +32,25 @@ class CoverityPlugin implements Plugin<Project> {
                 CoverityRootExtension, project)
 
         project.task('covEmitJava', type: CovEmitJavaTask)
+        project.task('covImportScm', type: CovImportScmTask,
+                dependsOn: project.tasks.covEmitJava)
         project.task('covAnalyzeJava', type: CovAnalyzeJavaTask,
                 dependsOn: project.tasks.covEmitJava)
         project.task('covCommitDefects', type: CovCommitDefectsTask,
                 dependsOn: project.tasks.covAnalyzeJava)
 
         configureChildProjects(project)
+
+        project.afterEvaluate {
+            if (project.extensions.getByType(CoverityRootExtension).scm) {
+                project.tasks.covAnalyzeJava.dependsOn(
+                        project.tasks.covImportScm)
+            }
+        }
     }
 
     /**
-     * Recurvisely configures the given project's child projects with the
+     * Recursively configures the given project's child projects with the
      * {@link CoverityExtension}.  This is run during {@link #apply}.
      *
      * @param project project to recurse and configure

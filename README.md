@@ -9,8 +9,8 @@ Basically this will automatically determine the arguments for
 ```cov-emit-java``` and run that after building instead of using ```cov-build```
 to wrap your build.  Emits are broken up by source set (Java) or variant
 (Android) in case your configuration might have multiple versions of a full
-package.name.ClassName.  Emits are followed up with ```cov-analyze-java```, then
-finally ```cov-commit-defects```.
+package.name.ClassName.  Emits are followed up with ```cov-import-scm``` (if an
+SCM is configured), ```cov-analyze-java```, then finally ```cov-commit-defects```.
 
 ## Disclaimer
 
@@ -76,11 +76,14 @@ coverity {
     // Default values shown here
     // You only have to add them if you wish to override
 
-    // Directory Coverity uses during emit/analyze/commit
+    // Directory Coverity uses during emit/scm/analyze/commit
     intermediateDir = "${project.buildDir}/coverity/intermediate"
 
     // Path to strip from the beginning of each file's absolute path during analyze
     stripPath = project.projectDir
+
+    // SCM type to use during SCM import (this is the value for the --scm argument of cov-import-scm and cov-commit-defects)
+    scm = System.getenv('COVERITY_SCM')
 
     // Path to your Coverity Analysis Tools root directory (leave "bin" off the end)
     // If env var is not set and you don't set this, it assumes "${COVERITY_HOME}/bin" is on your PATH
@@ -107,6 +110,10 @@ coverity {
 // You can add more args to the external executions for each of the added tasks
 // Again, each block is optional
 covEmitJava {
+    additionalArgs = ['--arg-name', 'value', 'argA', 'argB', 'etc']
+}
+
+covImportScm {
     additionalArgs = ['--arg-name', 'value', 'argA', 'argB', 'etc']
 }
 
@@ -140,8 +147,11 @@ Now you're ready to do an analysis.  The task dependency tree for this plugin
 looks like this:
 
 ```
-covEmitJava <- covAnalyzeJava <- covCommitDefects
+covEmitJava ( <- covImportScm ) <- covAnalyzeJava <- covCommitDefects
 ```
+
+```covImportScm``` will only be inserted into the dependency tree if you set
+a value for the ```scm``` configuration option.  The task is always created.
 
 So... just run this to build your app and do all those tasks for you in order:
 
