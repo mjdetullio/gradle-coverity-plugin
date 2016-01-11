@@ -209,8 +209,15 @@ class EmitConfigSet {
                         variantData.javaCompilerTask.classpath
             }
 
-            emitConfig.classpath +=
-                    project.files(plugin.androidBuilder.bootClasspath)
+            if (plugin.androidBuilder.hasProperty('bootClasspath')) {
+                // Android plugin < 1.5.x
+                emitConfig.classpath +=
+                        project.files(plugin.androidBuilder.bootClasspath)
+            } else {
+                // Android plugin 1.5.x
+                emitConfig.classpath +=
+                        project.files(plugin.androidBuilder.getBootClasspath(true))
+            }
 
             emitConfigs += emitConfig
         }
